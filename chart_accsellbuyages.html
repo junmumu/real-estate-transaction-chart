@@ -73,7 +73,7 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h2 class="page-header">전국 연령대별 부동산 등기 수</h2>
+				<h2 class="page-header">연령대별 누적 매수량</h2>
 			</div>
 		</div><!--/.row-->
 
@@ -165,8 +165,8 @@
 		rates = [];
 		for(key in res){
 			ages.push(res[key]['ages'])
-			tots.push(res[key]['tot'])
-			rates.push(res[key]['rate'] + '%')
+			tots.push(res[key]['buy_tot'])
+			rates.push(res[key]['buy_rate'] + '%')
 		}
 
 		trace = {};
@@ -188,7 +188,7 @@
 	// corona-rest서버에 요청을 보내고 응답받은 데이터를 차트로 그려주는 함수
 	const drawChart = (type) => {
 
-		getData('https://real-estate-analysis.cf/api/real_estate/agesregist/', {},
+		getData('https://real-estate-analysis.cf/api/real_estate/accsellbuyages/', {},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
 					renderChart(res, type)
 				})
