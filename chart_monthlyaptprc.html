@@ -38,8 +38,8 @@
 		<div class="divider"></div>
 
 		<ul class="nav menu">
-			<li><a href="chart_monthlyaptprc.html"><em class="fa fa-bar-chart">&nbsp;</em> 월간 아파트 매매 평균가격</a></li>
-			<li><a href="chart_sidoregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 전국 17개 광역시도별 부동산 등기 수</a></li>
+            <li><a href="chart_monthlyaptprc.html"><em class="fa fa-bar-chart">&nbsp;</em> 월간 아파트 매매 평균가격</a></li>
+            <li><a href="chart_sidoregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 전국 17개 광역시도별 부동산 등기 수</a></li>
 			<li><a href="chart_seoulguregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 자치구별 부동산 등기 수</a></li>
 			<li><a href="chart_ownregisttype.html"><em class="fa fa-bar-chart">&nbsp;</em> 전국 소유유형별 부동산 등기 수</a></li>
 			<li><a href="chart_seoulownregisttype.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 소유유형별 부동산 등기 수</a></li>
@@ -74,7 +74,7 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h2 class="page-header">전국 성별 부동산 등기 수</h2>
+				<h2 class="page-header">월간 아파트 매매 평균가격</h2>
 			</div>
 		</div><!--/.row-->
 
@@ -85,10 +85,8 @@
 				<div class="input-group mt-5">
 					<!-- <span class="input-group-addon" id="basic-addon3"><label for="basic-url">Your API URL</label></span>
 					<input type="text" class="form-control" id="api-url" aria-describedby="basic-addon4"> -->
-					<!-- <span class="input-group-addon" id="basic-addon3">시작날짜</span>
-					<input type="date" class="form-control" id="start-date" aria-describedby="basic-addon3">
-					<span class="input-group-addon" id="basic-addon3">종료날짜</span>
-					<input type="date" class="form-control" id="end-date" aria-describedby="basic-addon3"> -->
+					<span class="input-group-addon" id="basic-addon3">광역시도명</span>
+					<input type="text" class="form-control" id="std-loc-name" aria-describedby="basic-addon3">
 					<span class="input-group-addon btn btn-primary" id="btn_send">전송</span>
 				</div>
 
@@ -102,12 +100,8 @@
 								<ul class="dropdown-menu dropdown-menu-right">
 									<li>
 										<ul class="dropdown-settings">
-											<li><a href="#" id="bar-chart">
-												<em class="fa fa-cog"></em> bar
-											</a></li>
-											<li class="divider"></li>
-											<li><a href="#" id="pie-chart">
-												<em class="fa fa-cog"></em> pie
+											<li><a href="#" id="scatter-chart">
+												<em class="fa fa-cog"></em> scatter
 											</a></li>
 										</ul>
 									</li>
@@ -148,46 +142,117 @@
 			localStorage.clear();
 		})
 
-		// document.querySelector('#btn_send').addEventListener('click', (e) => {
-		// 	localStorage.clear();
-		// })
+		document.querySelector('#btn_send').addEventListener('click', (e) => {
+			localStorage.clear();
+		})
 	}
-
 
 	const renderChart = (res, type='bar') => {
 		console.dir(res);
 
-		sex = [];
-		tots = [];
-		rates = [];
+        let stdLocName = document.querySelector('#std-loc-name').value;
+
+        var sortingField = "date_ym";
+
+        res.sort(function(a, b) { // 오름차순
+            return a[sortingField] - b[sortingField];
+        });
+		
+		days = [];
+		values = [];
+        data = {'date_ym':[], 'avg_price':[], 'avg_price_m2':[]};
 		for(key in res){
-			sex.push(res[key]['sex'])
-			tots.push(res[key]['tot'])
-			rates.push(res[key]['rate'] + '%')
+			if (res[key]['regn'] == stdLocName){
+                data['date_ym'].push(res[key]['date_ym'])
+				data['avg_price'].push(res[key]['avg_price'])
+                data['avg_price_m2'].push(res[key]['avg_price_m2'])
+            }
 		}
 
-		trace = {};
-		trace.x = sex;
-		trace.y = tots;
-		trace.labels = sex;
-		trace.values = tots;
-		trace.sort = true;
-		if (type == 'bar'){
-			trace.text = rates.map(String);
-		}
-		
+		trace = {}
+		trace.x = days;
+		trace.y = values;
+        trace.name = 
 		trace.type = type;
-		
+
 		Plotly.newPlot('chart', [trace]);
-		
 	}
+
+    // const renderChart = (res, type='scatter') => {
+	// 	console.dir(res);
+
+	// 	// res.sort(function(a, b) { // 오름차순
+	// 	// 	return a.regn < b.regn ? -1 : a.regn > b.regn ? 1 : 0;
+	// 	// });
+
+	// 	var sortingField = "year";
+
+	// 	res.sort(function(a, b) { // 오름차순
+	// 		return a[sortingField] - b[sortingField];
+	// 	});
+
+	// 	console.dir(res);
+
+	// 	regn = [];
+
+	// 	seoul = {'year':[], 'tot':[]};
+	// 	gg = {'year':[], 'tot':[]};
+	// 	incheon = {'year':[], 'tot':[]};
+
+	// 	for(key in res){
+	// 		if (res[key]['regn'] == '서울특별시'){
+	// 			//regn.push('서울특별시')
+	// 			// seoul_years.push(res[key]['year'])
+	// 			// seoul_sell_tots.push(res[key]['sell_tot'])
+	// 			seoul['year'].push(res[key]['year'])
+	// 			seoul['tot'].push(res[key]['sell_tot'])
+	// 		}
+	// 		else if(res[key]['regn'] == '경기도'){
+	// 			//regn.push('비수도권')
+	// 			// gg_years.push(res[key]['year'])
+	// 			// gg_sell_tots.push(res[key]['sell_tot'])
+	// 			gg['year'].push(res[key]['year'])
+	// 			gg['tot'].push(res[key]['sell_tot'])
+	// 		}
+	// 		else{
+	// 			// incheon_years.push(res[key]['year'])
+	// 			// incheon_sell_tots.push(res[key]['sell_tot'])
+	// 			incheon['year'].push(res[key]['year'])
+	// 			incheon['tot'].push(res[key]['sell_tot'])
+	// 		}
+	// 	}
+
+	// 	trace1 = {};
+	// 	trace1.x = gg['year'];
+	// 	trace1.y = gg['tot'];
+	// 	trace1.name = '경기도';
+	// 	trace1.type = type;
+
+	// 	trace2 = {};
+	// 	trace2.x = seoul['year'];
+	// 	trace2.y = seoul['tot'];
+	// 	trace2.name = '서울특별시';
+	// 	trace2.type = type;
+
+	// 	trace3 = {};
+	// 	trace3.x = incheon['year'];
+	// 	trace3.y = incheon['tot'];
+	// 	trace3.name = '인천광역시';
+	// 	trace3.type = type;
+
+	// 	var data = [trace1, trace2, trace3];
+		
+	// 	Plotly.newPlot('chart', data);
+		
+	// }
 
 	// corona-rest서버에 요청을 보내고 응답받은 데이터를 차트로 그려주는 함수
 	const drawChart = (type) => {
+		let stdLocName = document.querySelector('#std-loc-name').value;
 
-		getData('https://real-estate-analysis.cf/api/real_estate/sexregist/', {},
+		getData('https://real-estate-analysis.cf/api/real_estate/monthlyaptprc/', {'location': stdLocName},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
-					renderChart(res, type)
+					renderChart(res[0], type)
 				})
 	}
 
@@ -199,15 +264,11 @@
 			drawChart()
 		})
 
-		document.querySelector('#bar-chart').addEventListener('click', e => {
-			drawChart('bar')
+		document.querySelector('#scatter-chart').addEventListener('click', e => {
+			drawChart('scatter')
 		})
 
-		document.querySelector('#pie-chart').addEventListener('click', e => {
-			drawChart('pie')
-		})
 
-	
 	
 	};
 	</script>	
