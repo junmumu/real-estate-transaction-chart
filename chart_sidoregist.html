@@ -215,7 +215,7 @@
 		// let endDate = document.querySelector('#end-date').value;
 
 		// https://www.corona-res.tk/corona/po~
-		getData('http://127.0.0.1:8000/api/real_estate/sidoregist/', {},
+		getData('https://real-estate-analysis.cf/api/real_estate/sidoregist/', {},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
 					renderChart(res, type)
 				})
