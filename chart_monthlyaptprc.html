@@ -142,16 +142,15 @@
 			localStorage.clear();
 		})
 
-		document.querySelector('#btn_send').addEventListener('click', (e) => {
-			localStorage.clear();
-		})
+		// document.querySelector('#btn_send').addEventListener('click', (e) => {
+		// 	localStorage.clear();
+		// })
 	}
 
 	const renderChart = (res, type='scatter') => {
 		console.dir(res);
 
         //let stdLocName = document.querySelector('#std-loc-name').value;
-
         res.sort(function(a, b) { // 오름차순
 			return a.date_ym < b.date_ym ? -1 : a.date_ym > b.date_ym ? 1 : 0;
 		});
@@ -194,7 +193,7 @@
 
 		getData('https://real-estate-analysis.cf/api/real_estate/monthlyaptprc/', {'location': stdLocName},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
-					renderChart(res[0], type)
+					renderChart(res, type)
 				})
 	}
 
