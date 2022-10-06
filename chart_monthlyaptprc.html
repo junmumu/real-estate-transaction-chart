@@ -147,13 +147,13 @@
 		})
 	}
 
-	const renderChart = (res, type='bar') => {
+	const renderChart = (res, type='scatter') => {
 		console.dir(res);
 
-        let stdLocName = document.querySelector('#std-loc-name').value;
+        //let stdLocName = document.querySelector('#std-loc-name').value;
 
         res.sort(function(a, b) { // 오름차순
-			return a.regn < b.regn ? -1 : a.regn > b.regn ? 1 : 0;
+			return a.date_ym < b.date_ym ? -1 : a.date_ym > b.date_ym ? 1 : 0;
 		});
 
         // var sortingField = "date_ym";
@@ -162,22 +162,29 @@
         //     return a[sortingField] - b[sortingField];
         // });
 
+		console.dir(res);
+
         data = {'date_ym':[], 'avg_price':[], 'avg_price_m2':[]};
 		for(key in res){
-			if (res[key]['regn'] == stdLocName){
-                data['date_ym'].push(res[key]['date_ym'])
-				data['avg_price'].push(res[key]['avg_price'])
-                data['avg_price_m2'].push(res[key]['avg_price_m2'])
-            }
+            data['date_ym'].push(res[key]['date_ym'])
+			data['avg_price'].push(res[key]['avg_price'])
+            data['avg_price_m2'].push(res[key]['avg_price_m2'])
+            
 		}
 
-		trace = {}
-		trace.x = days;
-		trace.y = values;
-        trace.name = 
-		trace.type = type;
+		trace1 = {}
+		trace1.x = data['date_ym'];
+		trace1.y = data['avg_price'];
+        trace1.name = "평균가격"
+		trace1.type = type;
 
-		Plotly.newPlot('chart', [trace]);
+		trace2 = {}
+		trace2.x = data['date_ym'];
+		trace2.y = data['avg_price_m2'];
+        trace2.name = "제곱미터당 평균가격"
+		trace2.type = type;
+
+		Plotly.newPlot('chart', [trace1, trace2]);
 	}
 
 
