@@ -69,7 +69,7 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h2 class="page-header">전국 성별 부동산 등기 수</h2>
+				<h2 class="page-header">소유유형별 누적 매수량</h2>
 			</div>
 		</div><!--/.row-->
 
@@ -152,19 +152,19 @@
 	const renderChart = (res, type='bar') => {
 		console.dir(res);
 
-		sex = [];
+		cls = [];
 		tots = [];
 		rates = [];
 		for(key in res){
-			sex.push(res[key]['sex'])
-			tots.push(res[key]['tot'])
-			rates.push(res[key]['rate'] + '%')
+			cls.push(res[key]['cls'])
+			tots.push(res[key]['buy_tot'])
+			rates.push(res[key]['buy_rate'] + '%')
 		}
 
 		trace = {};
-		trace.x = sex;
+		trace.x = cls;
 		trace.y = tots;
-		trace.labels = sex;
+		trace.labels = cls;
 		trace.values = tots;
 		trace.sort = true;
 		if (type == 'bar'){
@@ -180,7 +180,7 @@
 	// corona-rest서버에 요청을 보내고 응답받은 데이터를 차트로 그려주는 함수
 	const drawChart = (type) => {
 
-		getData('https://real-estate-analysis.cf/api/real_estate/sexregist/', {},
+		getData('https://real-estate-analysis.cf/api/real_estate/accsellbuytype/', {},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
 					renderChart(res, type)
 				})

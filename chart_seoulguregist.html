@@ -46,6 +46,13 @@
 			<li><a href="chart_seoulagesregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 연령대별 부동산 등기 수</a></li>
 			<li><a href="chart_sexregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 전국 성별 부동산 등기 수</a></li>
 			<li><a href="chart_seoulsexregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 성별 부동산 등기 수</a></li>
+			<li><a href="chart_accselladrs.html"><em class="fa fa-bar-chart">&nbsp;</em> 광역시도별 누적 매도량</a></li>
+			<li><a href="chart_accbuyadrs.html"><em class="fa fa-bar-chart">&nbsp;</em> 광역시도별 누적 매수량</a></li>
+			<li><a href="chart_sellbuysudo.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권·비수도권 누적 매수매도량</a></li>
+			<li><a href="chart_sellsudoyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권 연도별 매도량</a></li>
+			<li><a href="chart_buysudoyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권 연도별 매수량</a></li>
+			<li><a href="chart_accsellbuytype.html"><em class="fa fa-bar-chart">&nbsp;</em> 소유유형별 누적 매수량</a></li>
+			<li><a href="chart_sellbuytypeyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 소유유형별 연도별 매수량</a></li>
 			<li><a href="login.html" id="btn_logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
@@ -165,52 +172,10 @@
 		Plotly.newPlot('chart', [trace]);
 	}
 
-	// const renderChart = (res, type='bar') => {
-	// 	console.dir(res);
-		
-	// 	days = [];
-	// 	values = [];
-	// 	for(key in res){
-	// 		if (key == 'std_day') continue;
-	// 		days.push(key)
-	// 		values.push(res[key])
-	// 	}
-
-	// 	console.dir(days);
-	// 	console.dir(values);
-
-	// 	trace = {}
-	// 	trace.labels = days;
-	// 	trace.x = days;
-	// 	trace.values = values;
-	// 	trace.y = values;
-	// 	trace.type = type;
-
-	// 	Plotly.newPlot('chart', [trace]);
-	// }
-
-	// corona-rest서버에 요청을 보내고 응답받은 데이터를 차트로 그려주는 함수
-	// const drawChart = (type) => {
-	// 	// start_date, end_date, token
-	// 	let stdDate = document.querySelector('#std-date').value;
-	// 	let tmpStr = stdDate.split('-');
-	// 	let tmp = new Date(tmpStr[0], tmpStr[1], tmpStr[2]);
-
-	// 	tmp.setDate(tmp.getDate() - 1);
-	// 	let startDate = stdDayToString(tmp);  // 어제날짜
-
-	// 	tmp.setDate(tmp.getDate() + 1);
-	// 	let endDate = stdDayToString(tmp);  // 내일날짜
-
-	// 	getData('http://127.0.0.1/api/corona/weekday/', {'start_date': startDate, 'end_date':endDate},
-	// 				{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
-	// 				renderChart(res[0], type)
-	// 			})
-	// }
 
 	const drawChart = (type) => {
-		// https://www.corona-res.tk/corona/po~
-		getData('http://127.0.0.1:8000/api/real_estate/seoulguregist/', {},
+
+		getData('https://real-estate-analysis.cf/api/real_estate/seoulguregist/', {},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
 					renderChart(res, type)
 				})
@@ -232,14 +197,7 @@
 			drawChart('pie')
 		})
 
-		
-		// TESTER = document.getElementById('chart');
-		// Plotly.newPlot( TESTER, [{
-		// x: [1, 2, 3, 4, 5],
-		// y: [1, 2, 4, 8, 16] }], {
-		// margin: { t: 0 } } );
 
-	
 	};
 	</script>	
 </body>

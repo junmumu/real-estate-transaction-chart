@@ -46,6 +46,13 @@
 			<li><a href="chart_seoulagesregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 연령대별 부동산 등기 수</a></li>
 			<li><a href="chart_sexregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 전국 성별 부동산 등기 수</a></li>
 			<li><a href="chart_seoulsexregist.html"><em class="fa fa-bar-chart">&nbsp;</em> 서울시 성별 부동산 등기 수</a></li>
+			<li><a href="chart_accselladrs.html"><em class="fa fa-bar-chart">&nbsp;</em> 광역시도별 누적 매도량</a></li>
+			<li><a href="chart_accbuyadrs.html"><em class="fa fa-bar-chart">&nbsp;</em> 광역시도별 누적 매수량</a></li>
+			<li><a href="chart_sellbuysudo.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권·비수도권 누적 매수매도량</a></li>
+			<li><a href="chart_sellsudoyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권 연도별 매도량</a></li>
+			<li><a href="chart_buysudoyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 수도권 연도별 매수량</a></li>
+			<li><a href="chart_accsellbuytype.html"><em class="fa fa-bar-chart">&nbsp;</em> 소유유형별 누적 매수량</a></li>
+			<li><a href="chart_sellbuytypeyear.html"><em class="fa fa-bar-chart">&nbsp;</em> 소유유형별 연도별 매수량</a></li>
 			<li><a href="login.html" id="btn_logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
@@ -174,7 +181,7 @@
 	const drawChart = (type) => {
 
 		// https://www.corona-res.tk/corona/po~
-		getData('http://127.0.0.1:8000/api/real_estate/seoulsexregist/', {},
+		getData('https://real-estate-analysis.cf/api/real_estate/seoulsexregist/', {},
 					{'Content-Type': 'application/json', 'Authorization': 'Token ' + token}).then(res => {
 					renderChart(res, type)
 				})
